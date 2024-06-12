@@ -1,0 +1,66 @@
+
+.table {
+    
+    display: grid;
+    grid-template-columns: 150px 200px;
+
+}
+
+.table label {
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1em;
+    margin: 5px 10px;
+
+}
+
+.table span {
+   
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 5px 10px;
+   
+}
+
+.table .row {
+
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 10px;
+
+}
+
+.status {
+    display: none;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: green;
+}
+
+select {
+    
+    height: 2em;
+    
+}
+
+option {
+
+    width: 14em;    
+    padding: 0 1em;
+    text-indent: 0;
+    line-height: 2em;
+
+}
+
+button {
+    
+    flex-basis: 50%; 
+    margin-top: 20px;
+
+}

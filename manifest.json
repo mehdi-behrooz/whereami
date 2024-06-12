@@ -1,0 +1,23 @@
+{
+	"manifest_version": 3,
+	"name": "Where am I?",
+	"description": "Shows your current IP and country",
+	"version": "1.0",
+    	"options_ui": {
+        	"page": "options/options.html",
+        	"open_in_tab": false
+    	},
+	"action": {
+    		"default_popup": "popup/popup.html",
+    		"default_icon": "assets/icon.png"
+  	},
+  	"permissions": [
+    		"alarms",
+    		"notifications",
+    		"storage"
+  	],
+  	"background": {
+    		"service_worker": "modules/background.js",
+            "type": "module"
+	}
+}

@@ -1,0 +1,64 @@
+
+body {
+
+    width: 300px;
+
+}
+
+.table {
+    
+    display: grid;
+    grid-template-columns: 100px 200px;
+
+}
+
+.table label {
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 1em;
+    font-weight: bold;
+    color:black;
+    margin: 5px 10px;
+
+}
+
+.table span {
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 1.1em;
+    font-weight: bolder;
+    color:green;
+    margin: 5px 10px;
+
+}
+
+.table .row {
+
+    grid-column-start: 1;
+    grid-column-end: span 2;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 5px 10px;
+
+}
+
+.button {
+    
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+
+}
+
+.refresh-button {
+    background: url("/assets/awesome/refresh.svg") center no-repeat;
+}
+
+.settings-button {
+    background: url("/assets/awesome/settings.svg") center no-repeat;
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <title>Where am I? - Options</title>
+    <link rel="stylesheet" href="options.css">
+
+  </head>
+
+  <body>
+
+    <div class="table">
+
+        <label>Debug Mode</label>
+        
+        <span>
+            <input type="checkbox" id="debug"></input>
+        </span>
+        
+        <label>Location Provider:</label>
+
+        <span>
+            <select id="location-provider">
+            </select>
+        </span>
+
+        <label>Icon Badge Type:</label>
+
+        <span>
+            <select id="badge-content">
+            </select>
+        </span>
+
+        <label>Icon Badge Color:</label>
+
+        <span>
+            <select id="badge-color">
+              <option value="black">Black</option>
+              <option value="red">Red</option>
+              <option value="green">Green</option>
+              <option value="blue">Blue</option>
+              <option value="orange">Orange</option>
+              <option value="yellow">Yellow</option>
+            </select>
+        </span>
+        
+        <div class="row">
+            <button id="save">Save</button>
+        </div>
+        
+        <div class="row">
+            <div id="status" class="status">
+                Settings saved successfully.
+            </div>
+        </div>
+        
+    </div>
+
+    <script src="/assets/jquery-3.7.1.min.js"></script>
+    <script src="options.js" type="module"></script>
+    
+    
+  </body>
+</html>
