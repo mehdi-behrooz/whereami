@@ -41,7 +41,7 @@ function populateLocationProviderDropdown() {
         
         const value = LocationProvider[key];
         const label = LocationProviderLabels[value];
-        const option = $('<option></option>');
+        const option = $("<option></option>");
         
         option.text(label);
         option.attr("id", `location_provider_${value}`); 
@@ -63,7 +63,7 @@ function populateBadgeContentDropdown() {
         
         const value = IconType[key];
         const label = IconTypeLabels[value];
-        const option = $('<option></option>');
+        const option = $("<option></option>");
         
         option.text(label);
         option.attr("id", `badge_content_${value}`); 

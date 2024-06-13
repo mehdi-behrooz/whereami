@@ -269,7 +269,7 @@ function updateIconWith(data, settings) {
         case IconType.NONE:
         
             chrome.action.setIcon({path: constants.DEFAULT_ICON});
-            chrome.action.setBadgeText({ text: '' });
+            chrome.action.setBadgeText({ text: "" });
             break;
             
         
@@ -283,7 +283,7 @@ function updateIconWith(data, settings) {
         
         case IconType.COUNTRY_FLAG:
         
-            chrome.action.setBadgeText({ text: '' });
+            chrome.action.setBadgeText({ text: "" });
             drawOnTopOfIcon(data.countryCode);
             break;
             
