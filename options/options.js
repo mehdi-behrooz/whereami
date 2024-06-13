@@ -7,6 +7,8 @@ import {
     LocationProvider, 
     LocationProviderLabels} from "/modules/constants.js"
 
+import { logging } from "./logging.js";
+
 
 $(document).ready(function() {
     
@@ -103,7 +105,7 @@ function saveData() {
     }
     
     chrome.storage.sync.set({ settings }).then(() => {
-        console.log("options: Settings saved.");
+        logging.debug("[options] Settings saved.");
         $("#status").show();
         setTimeout(() => { $("#status").hide(); }, 2000);
     });

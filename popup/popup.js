@@ -1,5 +1,7 @@
 'use strict';
 
+import { logging } from "/modules/logging.js";
+
 $(document).ready(function () {
     initialize();
 });
@@ -28,7 +30,7 @@ function initialize() {
 
 function updateView() {
 
-    console.log("popup: Updating popup...");
+    logging.debug("[popup] Updating popup...");
 
     chrome.storage.session.get("data").then((result) => {
 
@@ -40,7 +42,7 @@ function updateView() {
             $("#region").text(data.region);
             $("#isp").text(data.isp);
         } else {
-            console.log("popup: Updating view failed. No data in storage found.");
+            logging.warn("[popup] Updating view failed. No data in storage found.");
         }
 
     });

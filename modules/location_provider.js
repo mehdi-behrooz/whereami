@@ -2,6 +2,7 @@
 export { getCurrentLocation };
 
 import { LocationProvider } from "./constants.js"
+import { logging } from "./logging.js";
 
 const FAKE_LOCATIONS = [
     ["France", "Paris", "FR"],
@@ -62,13 +63,13 @@ function generateFakeLocation(onSuccess) {
 
 function query_IP_API(onSuccess, onError) {
     
-    console.log("location provider: Querying ip-api.com...");
+    logging.debug("[location provider] Querying ip-api.com...");
  
     fetch("http://ip-api.com/json")
             .then(response => response.json())
             .then(json => {
                 
-                console.log("location provider: JSON received: ", json);
+                logging.debug("[location provider] JSON received: ", json);
                 
                 onSuccess({
                         ip: json.query,
@@ -86,13 +87,13 @@ function query_IP_API(onSuccess, onError) {
 
 function query_IP_SB(onSuccess, onError) {
 
-    console.log("location provider: Querying ip.sb...");
+    logging.debug("[location provider] Querying ip.sb...");
 
     fetch("https://api-ipv4.ip.sb/geoip")
             .then(response => response.json())
             .then(json => {
                 
-                console.log("location provider: JSON received: ", json);
+                logging.debug("[location provider] JSON received: ", json);
                 
                 onSuccess({
                         ip: json.ip,

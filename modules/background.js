@@ -2,7 +2,7 @@
 
 import { getCurrentLocation } from "./location_provider.js";
 import { constants, IconType, DEFAULT_SETTINGS } from "./constants.js"
-
+import { logging } from "./logging.js";
 
 chrome.runtime.onInstalled.addListener(({ reason }) => {
     
@@ -58,14 +58,14 @@ function ensureSettings() {
             
             if (settings) {
                 
-                console.log("background: Settings already exist.");
+                logging.debug("[background] Settings already exist.");
                 resolve();
             
             } else {
 
                 chrome.storage.sync.set({ settings: DEFAULT_SETTINGS }).then(() => {
                     
-                    console.log("background: Default settings saved to memory.");
+                    logging.debug("[background] Default settings saved to memory.");
                     resolve();
                     
                 });
@@ -107,7 +107,7 @@ function ensureAlarm() {
 
         if (alarm) {
 
-            console.log("background: Alarm is already set.");
+            logging.debug("[background] Alarm is already set.");
             return;     
 
         }
@@ -124,7 +124,7 @@ function ensureAlarm() {
 
         });
 
-        console.log("background: Alarm successfuly set.");
+        logging.debug("[background] Alarm successfuly set.");
         
     });
 
@@ -133,7 +133,7 @@ function ensureAlarm() {
 
 function ensureLocation() {
 
-    console.log("background: Ensuring location...");
+    logging.debug("[background] Ensuring location...");
 
     chrome.storage.session.get("data").then((result) => {
         
@@ -141,7 +141,7 @@ function ensureLocation() {
         
         if (! data) {
 
-            console.log("background: No previous data found. Location will be updated.");
+            logging.debug("[background] No previous data found. Location will be updated.");
             updateLocation();
             return;
 
@@ -149,11 +149,11 @@ function ensureLocation() {
 
         const elapsedTime = Date.now() - data.timestamp;
         
-        console.log(`background: Latest update has happened ${elapsedTime} miliseconds ago.`);
+        logging.debug(`[background] Latest update has happened ${elapsedTime} miliseconds ago.`);
 
         if (elapsedTime > constants.UPDATE_INTERVAL_IN_MILLISECONDS) {
             
-            console.log("background: Location will be updated.");
+            logging.debug("[background] Location will be updated.");
             updateLocation();
 
         }
@@ -184,7 +184,7 @@ function updateLocation() {
 
 function updateLocationOnSuccess(data) {
 
-    console.log("background: Location received: data = ", data);
+    logging.debug("[background] Location received: data = ", data);
 
     data.timestamp = Date.now();
     
@@ -199,15 +199,15 @@ function updateLocationOnError(error) {
 
     chrome.action.setIcon({path: constants.SMALLER_ICON});
     chrome.action.setBadgeText({ text: "\u2716" });
-    console.log("background: Error updating location: ", error);
+    logging.warn("[background] Error updating location: ", error);
 
 }
 
 
 function onMessageReceived(request, sender, sendResponse) {
 
-    console.log("background: Message received by background from sender: ", sender);
-    console.log("background: Request: ", request);
+    logging.debug("[background] Message received by background from sender: ", sender);
+    logging.debug("[background] Request: ", request);
 
     if (request == "update") {
         updateLocation();
@@ -220,12 +220,12 @@ function ensurePort() {
 
     if (chrome.runtime.onMessage.hasListener(onMessageReceived)) {
 
-        console.log("background: Port is alreay open.");
+        logging.debug("[background] Port is alreay open.");
 
     } else {
 
         chrome.runtime.onMessage.addListener(onMessageReceived);
-        console.log("background: Port successfuly opened.");
+        logging.debug("[background] Port successfuly opened.");
 
     }
 
