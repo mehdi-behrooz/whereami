@@ -7,7 +7,7 @@ import {
     LocationProvider,
     LocationProviderLabels} from "/modules/constants.js"
 
-import { logging } from "./logging.js";
+import { logging } from "/modules/logging.js";
 
 
 $(document).ready(function() {
