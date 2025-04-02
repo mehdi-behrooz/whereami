@@ -18,25 +18,25 @@ const FAKE_LOCATIONS = [
 function getCurrentLocation(onSuccess, onError, settings) {
 
     switch(parseInt(settings.locationProvider)) {
-        
+
         case LocationProvider.FAKE:
-        
+
             generateFakeLocation(onSuccess);
-            
+
             break;
-            
+
         case LocationProvider.IP_API:
-        
+
             query_IP_API(onSuccess, onError);
-            
+
             break;
-            
+
         case LocationProvider.IP_SB:
-    
+
             query_IP_SB(onSuccess, onError);
-            
+
             break;
- 
+
     }
 
 }
@@ -62,26 +62,26 @@ function generateFakeLocation(onSuccess) {
 
 
 function query_IP_API(onSuccess, onError) {
-    
+
     logging.debug("[location provider] Querying ip-api.com...");
- 
+
     fetch("http://ip-api.com/json")
             .then(response => response.json())
             .then(json => {
-                
+
                 logging.debug("[location provider] JSON received: ", json);
-                
+
                 onSuccess({
                         ip: json.query,
                         country: json.country,
                         countryCode: json.countryCode,
                         isp: json.org,
                         region: json.regionName,
-                })            
-            
+                })
+
             })
             .catch(error => onError);
-            
+
 }
 
 
@@ -92,17 +92,17 @@ function query_IP_SB(onSuccess, onError) {
     fetch("https://api-ipv4.ip.sb/geoip")
             .then(response => response.json())
             .then(json => {
-                
+
                 logging.debug("[location provider] JSON received: ", json);
-                
+
                 onSuccess({
                         ip: json.ip,
                         country: json.country,
                         countryCode: json.country_code,
                         isp: json.organization,
                         region: json.region,
-                })            
-            
+                })
+
             })
             .catch(error => onError);
 
@@ -112,7 +112,6 @@ function query_IP_SB(onSuccess, onError) {
 
 function _getRandomInt(max) {
 
-    return Math.floor(Math.random() * max); 
+    return Math.floor(Math.random() * max);
 
 }
-

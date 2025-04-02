@@ -6,7 +6,7 @@ body {
 }
 
 .table {
-    
+
     display: grid;
     grid-template-columns: 100px 200px;
 
@@ -48,7 +48,7 @@ body {
 }
 
 .button {
-    
+
     width: 18px;
     height: 18px;
     margin-left: 10px;

@@ -1,6 +1,6 @@
 
 .table {
-    
+
     display: grid;
     grid-template-columns: 150px 200px;
 
@@ -17,12 +17,12 @@
 }
 
 .table span {
-   
+
     display: flex;
     justify-content: flex-start;
     align-items: center;
     margin: 5px 10px;
-   
+
 }
 
 .table .row {
@@ -44,14 +44,14 @@
 }
 
 select {
-    
+
     height: 2em;
-    
+
 }
 
 option {
 
-    width: 14em;    
+    width: 14em;
     padding: 0 1em;
     text-indent: 0;
     line-height: 2em;
@@ -59,8 +59,8 @@ option {
 }
 
 button {
-    
-    flex-basis: 50%; 
+
+    flex-basis: 50%;
     margin-top: 20px;
 
 }

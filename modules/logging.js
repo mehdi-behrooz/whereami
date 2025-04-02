@@ -1,5 +1,5 @@
 export const logging = {
-    
+
     debug: function() {
         console.debug(getTime(), ...arguments);
     },
@@ -19,7 +19,7 @@ export const logging = {
 }
 
 function getTime() {
-    
+
     return new Date().toString();
 
 }
