@@ -19,7 +19,5 @@ export const logging = {
 }
 
 function getTime() {
-
     return new Date().toString();
-
 }

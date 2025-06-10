@@ -4,6 +4,7 @@ export { getCurrentLocation };
 import { LocationProvider } from "./constants.js"
 import { logging } from "./logging.js";
 
+
 const FAKE_LOCATIONS = [
     ["France", "Paris", "FR"],
     ["Germany", "Berlin", "DE"],
@@ -20,21 +21,15 @@ function getCurrentLocation(onSuccess, onError, settings) {
     switch(parseInt(settings.locationProvider)) {
 
         case LocationProvider.FAKE:
-
             generateFakeLocation(onSuccess);
-
             break;
 
         case LocationProvider.IP_API:
-
             query_IP_API(onSuccess, onError);
-
             break;
 
         case LocationProvider.IP_SB:
-
             query_IP_SB(onSuccess, onError);
-
             break;
 
     }
@@ -106,12 +101,9 @@ function query_IP_SB(onSuccess, onError) {
             })
             .catch(error => onError);
 
-
 }
 
 
 function _getRandomInt(max) {
-
     return Math.floor(Math.random() * max);
-
 }

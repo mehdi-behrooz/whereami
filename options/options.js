@@ -19,16 +19,12 @@ $(document).ready(function() {
 function initialize() {
 
     $("#save").click(saveData);
-
     $("#debug").change(onDebugChanged);
-
     populateLocationProviderDropdown();
-
     populateBadgeContentDropdown();
-
     onDebugChanged();
-
     loadData();
+
 }
 
 
@@ -81,7 +77,6 @@ function loadData() {
     chrome.storage.sync.get("settings").then((result) => {
 
         const settings = result.settings;
-
         if (! settings) {
             return;
         }
