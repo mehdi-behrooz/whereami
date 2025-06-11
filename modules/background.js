@@ -6,41 +6,33 @@ import { IconManager } from "./iconmanager.js"
 import { logging } from "./logging.js";
 
 
-chrome.runtime.onInstalled.addListener(({ reason }) => {
-    clearAlarm();
-    initialize();
-});
+function addListener(event, f) {
+    if (! event.hasListener(f)) {
+        event.addListener(f);
+    }
+}
 
-
-chrome.runtime.onStartup.addListener(function () {
-    clearAlarm();
-    initialize();
-});
-
-
-chrome.tabs.onActivated.addListener(function () {
-    initialize();
-});
-
-
-chrome.tabs.onUpdated.addListener(function () {
-    initialize();
-});
+addListener(chrome.runtime.onInstalled, initialize);
+addListener(chrome.runtime.onStartup, initialize);
+addListener(chrome.windows.onFocusChanged, onTabChange);
+addListener(chrome.tabs.onActivated, onTabChange);
+addListener(chrome.tabs.onUpdated, onTabChange);
+addListener(chrome.alarms.onAlarm, onAlarm);
+addListener(chrome.storage.onChanged, onSettingsChanged);
+addListener(chrome.runtime.onMessage, onMessage);
 
 
 function initialize() {
-
     ensureSettings().then(() => {
-
-        ensureSettingsListener();
-        ensureAlarm();
-        ensurePort();
-        ensureLocation();
-
+        setupAlarm();
+        updateLocation();
     });
-
 }
 
+function setupAlarm() {
+    chrome.alarms.clearAll();
+    chrome.alarms.create(constants.ALARM_NAME, { periodInMinutes: constants.ALARM_PERIOD_IN_MINUTES });
+}
 
 function ensureSettings() {
 
@@ -65,68 +57,49 @@ function ensureSettings() {
 
 }
 
-
-function ensureSettingsListener() {
-
-    chrome.storage.onChanged.addListener((changes) => {
-        if ("settings" in changes) {
-            updateIcon();
-        }
-    });
-
+function onAlarm(alarm) {
+    logging.debug("Alarm called.");
+    updateLocation();
 }
 
-
-function clearAlarm() {
-    chrome.alarms.clear(constants.ALARM_NAME);
+function onTabChange() {
+    updateLocation();
 }
 
-
-function ensureAlarm() {
-
-    chrome.alarms.get(constants.ALARM_NAME, alarm => {
-        if (alarm) {
-            logging.debug("[background] Alarm is already set.");
-            return;
-        }
-        chrome.alarms.create(constants.ALARM_NAME, { periodInMinutes: constants.ALARM_PERIOD_IN_MINUTES });
-        chrome.alarms.onAlarm.addListener((alarm) => {
-            if (alarm.name === constants.ALARM_NAME) {
-                ensureLocation();
-            }
-        });
-        logging.debug("[background] Alarm successfuly set.");
-    });
-
+function onSettingsChanged(changes) {
+    if ("settings" in changes) {
+        updateIcon();
+    }
 }
 
+function onMessage(request, sender, _) {
+    logging.debug(`[background] Message received from sender '${sender}' with request '${request}'`);
+    if (request == "update") {
+        updateLocationForced();
+    }
+}
 
-function ensureLocation() {
-
-    logging.debug("[background] Ensuring location...");
-
+function updateLocation() {
+    logging.debug("[background] Updating location...");
     chrome.storage.session.get("data").then((result) => {
         const data = result.data;
         if (! data) {
-            logging.debug("[background] No previous data found. Location will be updated.");
-            updateLocation();
+            logging.debug("[background] No previous location data found. Location will be updated.");
+            updateLocationForced();
             return;
         }
         const elapsedTime = Date.now() - data.timestamp;
-        logging.debug(`[background] Latest update has happened ${elapsedTime} miliseconds ago.`);
-        if (elapsedTime > constants.UPDATE_INTERVAL_IN_MILLISECONDS) {
-            logging.debug("[background] Location will be updated.");
-            updateLocation();
+        if (elapsedTime > constants.MIN_INTERVAL_BETWEEN_QUERIES) {
+            logging.debug(`[background] Latest update has happened ${elapsedTime} miliseconds ago. Location will be updated.`);
+            updateLocationForced();
+        } else {
+            logging.debug(`[background] Latest update has already happened ${elapsedTime} miliseconds ago. Skipping.`);
         }
     });
-
 }
 
-
-function updateLocation() {
-
+function updateLocationForced() {
     IconManager.showIdleIcon();
-
     chrome.storage.sync.get("settings").then((result) => {
         const settings = result.settings;
         getCurrentLocation(
@@ -135,9 +108,7 @@ function updateLocation() {
             settings
         );
     });
-
 }
-
 
 function updateLocationOnSuccess(data) {
     logging.debug("[background] Location received: data = ", data);
@@ -148,29 +119,6 @@ function updateLocationOnSuccess(data) {
 
 
 function updateLocationOnError(error) {
-    IconManager.showErrorIcon();
     logging.warn("[background] Error updating location: ", error);
-}
-
-
-function onMessageReceived(request, sender, sendResponse) {
-
-    logging.debug("[background] Message received by background from sender: ", sender);
-    logging.debug("[background] Request: ", request);
-    if (request == "update") {
-        updateLocation();
-    }
-
-}
-
-
-function ensurePort() {
-
-    if (chrome.runtime.onMessage.hasListener(onMessageReceived)) {
-        logging.debug("[background] Port is alreay open.");
-    } else {
-        chrome.runtime.onMessage.addListener(onMessageReceived);
-        logging.debug("[background] Port successfuly opened.");
-    }
-
+    IconManager.showErrorIcon();
 }

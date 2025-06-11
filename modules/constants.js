@@ -41,9 +41,9 @@ export const DEFAULT_SETTINGS = {
 
 export const constants = {
     ALARM_NAME: "update-location-alarm",
-    ALARM_PERIOD_IN_MINUTES: 0.2,
+    ALARM_PERIOD_IN_MINUTES: 1,
     DEFAULT_ICON: "/assets/icon.png",
     COUNTRY_FLAG_WIDTH: 32,
     COUNTRY_FLAG_HEIGHT: 18,
-    UPDATE_INTERVAL_IN_MILLISECONDS: 5 * 1000,
+    MIN_INTERVAL_BETWEEN_QUERIES: 15 * 1000, 
 }
