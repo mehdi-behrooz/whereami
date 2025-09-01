@@ -68,7 +68,7 @@ function onTabChange() {
 
 function onSettingsChanged(changes) {
     if ("settings" in changes) {
-        updateIcon();
+        IconManager.updateIcon();
     }
 }
 
